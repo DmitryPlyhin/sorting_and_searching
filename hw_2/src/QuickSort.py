@@ -133,6 +133,7 @@ def AlternativeQuickSort(a,p,r):
 #Loading data
 k = []
 def LoadFile(filename):
+    k = []
     f = open(filename)
     j=0
     numberofelements = int(f.readline())
@@ -140,12 +141,13 @@ def LoadFile(filename):
         i = int(f.readline())
         k.append(i)
         j=j+1
+    return k
 
 #General
 filenames = ['data8192.txt', 'data16384.txt', 'data32768.txt', 'data65536.txt',
          'data131072.txt','data262144.txt']
 for filename in filenames:
-    LoadFile(filename)
+    k = LoadFile(filename)
     tit1=time.time()
     QuickSort(k,0,len(k)-1)
     tit2=time.time()

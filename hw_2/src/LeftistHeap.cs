@@ -16,28 +16,43 @@ namespace LeftistHeap
             internal Node parent;
             internal Node leftchild;
             internal Node rightchild;
+
+            public Node(int key)
+            {
+                this.key = key;
+            }
         }
 
         static Node leftistHeap;
 
         static void Main(string[] args)
         {
-            Node node1 = new Node();
-            node1.key = 15;
-            Node node2 = new Node();
-            node2.key = 2;
-            Node node3 = new Node();
-            node3.key = 3;
-            Node node4 = new Node();
-            node4.key = 22;
-            Node node5 = new Node();
-            node5.key = 1;
-            leftistHeap = Merge(ref node1, ref node2);
-            AddNodeTo(ref leftistHeap, ref node3);
-            AddNodeTo(ref leftistHeap, ref node4);
-            AddNodeTo(ref leftistHeap, ref node5);
-            Console.WriteLine(ExtractMaxKey(ref leftistHeap));
-
+            string[] namesOfFiles = {"data8192.txt", "data16384.txt", "data32768.txt", "data65536.txt",
+            "data131072.txt","data262144.txt"};
+            Node node;
+            for (int j = 0; j < namesOfFiles.Length; j++)
+            {
+                System.IO.StreamReader file = new System.IO.StreamReader(@"C:\Users\Zerbs\Desktop\Additions\"+namesOfFiles[j]);
+                int numberOfElements = int.Parse(file.ReadLine());
+                int[] arrayForSorting = new int[numberOfElements];
+                for (int i = 0; i < numberOfElements; i++)
+                {
+                    arrayForSorting[i] = int.Parse(file.ReadLine());
+                }
+                file.Close();
+                DateTime one = DateTime.Now;
+                for (int i = 0; i < numberOfElements; i++)
+                {
+                    node = new Node(numberOfElements - 1 - i);
+                    AddNodeTo(ref leftistHeap, ref node);
+                }
+                for (int i = 0; i < numberOfElements; i++)
+                {
+                    arrayForSorting[numberOfElements - 1 - i] = ExtractMaxKey(ref leftistHeap);
+                }
+                DateTime two = DateTime.Now;
+                Console.WriteLine("For " + namesOfFiles[j] + " : " + (two - one));
+            }
             Console.ReadLine();
         }
 
@@ -63,7 +78,7 @@ namespace LeftistHeap
             {
                 Swap(ref node1.rightchild, ref node1.leftchild);
             }
-            node1.npl = Npl(node1.rightchild) + 1;
+            node1.npl = Npl(node1);
             return node1;
         }
 
@@ -95,8 +110,14 @@ namespace LeftistHeap
         static int ExtractMaxKey(ref Node node)
         {
             int maxkey = node.key;
-            node.leftchild.parent = null;
-            node.rightchild.parent = null;
+            if (node.rightchild != null)
+            {
+                node.leftchild.parent = null;
+            }
+            if (node.rightchild != null)
+            {
+                node.rightchild.parent = null;
+            }
             node = Merge(ref node.leftchild, ref node.rightchild);
             return maxkey;
         }

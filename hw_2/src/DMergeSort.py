@@ -1,3 +1,4 @@
+import time
 def Merge(series):
     lengths = []
     indexes = []
@@ -31,7 +32,28 @@ def DMergeSort(a,d):
         series.append(DMergeSort(a[i*len(a)//d:(i+1)*len(a)//d],d))
     return Merge(series)
 
-k = [1,223,1223,1231,223,12,65,345,234,765,2333333,456]
-k = DMergeSort(k,5)
-print(k)
+#Loading data
+k = []
+def LoadFile(filename):
+    k = []
+    f = open(filename)
+    j=0
+    numberofelements = int(f.readline())
+    while j<numberofelements:
+        i = int(f.readline())
+        k.append(i)
+        j=j+1
+    return k
+
+#General
+filenames = ['data8192.txt', 'data16384.txt', 'data32768.txt', 'data65536.txt',
+         'data131072.txt','data262144.txt']
+for d in range(3,7):
+    print('For d = ',d)
+    for filename in filenames:
+        k = LoadFile(filename)
+        tit1=time.time()
+        k = DMergeSort(k,d)
+        tit2=time.time()
+        print('For ',filename,' = ',tit2-tit1)
     
