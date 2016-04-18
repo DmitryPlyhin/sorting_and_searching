@@ -43,7 +43,7 @@ namespace LeftistHeap
                 DateTime one = DateTime.Now;
                 for (int i = 0; i < numberOfElements; i++)
                 {
-                    node = new Node(numberOfElements - 1 - i);
+                    node = new Node(arrayForSorting[i]);
                     AddNodeTo(ref leftistHeap, ref node);
                 }
                 for (int i = 0; i < numberOfElements; i++)
